@@ -14,17 +14,19 @@ public class Evento {
     private String titulo;
     private String descricao;
     private String local;
-    private String data;
+    private String dataInicio;
+    private String dataFim;
     private String categoria;
 
     public Evento() {
     }
 
-    public Evento(String titulo, String descricao, String local, String data, String categoria) {
+    public Evento(String titulo, String descricao, String local, String dataInicio, String dataFim, String categoria) {
         this.titulo = titulo;
         this.descricao = descricao;
         this.local = local;
-        this.data = data;
+        this.dataInicio = dataInicio;
+        this.dataFim = dataFim;
         this.categoria = categoria;
     }
 
@@ -60,12 +62,20 @@ public class Evento {
         this.local = local;
     }
 
-    public String getData() {
-        return data;
+    public String getDataInicio() {
+        return dataInicio;
     }
 
-    public void setData(String data) {
-        this.data = data;
+    public void setDataInicio(String dataInicio) {
+        this.dataInicio = dataInicio;
+    }
+
+    public String getDataFim() {
+        return dataFim;
+    }
+
+    public void setDataFim(String dataFim) {
+        this.dataFim = dataFim;
     }
 
     public String getCategoria() {

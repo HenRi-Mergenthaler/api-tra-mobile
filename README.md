@@ -59,7 +59,13 @@ Para cadastrar, alterar ou excluir eventos, mande o `token` recebido no header `
   "titulo": "Feira de Artesanato",
   "descricao": "Feira com artesaos locais.",
   "local": "Praca Central",
-  "data": "06/12/2026 09:00",
+  "dataInicio": "06/12/2026 09:00",
+  "dataFim": "06/12/2026 18:00",
   "categoria": "Cultura"
 }
 ```
+
+- `titulo`, `local`, `dataInicio` e `dataFim` são obrigatórios.
+- As datas usam o formato `dd/MM/yyyy HH:mm`.
+- A data de fim não pode ser antes da data de início.
+- Se faltar algum campo ou a data estiver errada, a API devolve erro 400 com a mensagem do problema.
