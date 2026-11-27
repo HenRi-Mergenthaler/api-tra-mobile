@@ -4,9 +4,9 @@ Back-end do app de eventos da cidade. Feito em Java com Spring Boot e banco SQLi
 
 ## Como rodar
 
-Precisa do JDK 17 (pode ser o que vem com o Android Studio).
+Precisa do JDK 17 (Temurin 17) com o `JAVA_HOME` apontando para ele.
 
-Dentro da pasta `eventos-api`:
+Dentro da pasta `api-tra-mobile`:
 
 ```
 .\mvnw.cmd spring-boot:run
@@ -14,12 +14,12 @@ Dentro da pasta `eventos-api`:
 
 A API sobe em `http://localhost:8080`.
 
-Na primeira vez é criado o arquivo `eventos.db` com alguns eventos e dois usuários:
+O banco é SQLite (arquivo `eventos.db`), não precisa de Docker nem de instalar banco. Na primeira vez ele é criado com alguns eventos, e toda vez que a API sobe ela garante estes dois usuários:
 
-| Login | Senha    | Admin |
-|-------|----------|-------|
-| admin | admin123 | sim   |
-| joao  | 123      | não   |
+| Login   | Senha   | Admin |
+|---------|---------|-------|
+| admin   | admin   | sim   |
+| usuario | usuario | não   |
 
 Para voltar aos dados iniciais é só apagar o `eventos.db` e rodar de novo.
 
@@ -30,8 +30,8 @@ No emulador Android o endereço da API é `http://10.0.2.2:8080/`.
 | Método | Rota                | O que faz              | Precisa ser admin |
 |--------|---------------------|------------------------|-------------------|
 | POST   | `/api/login`        | Faz login              | não               |
-| GET    | `/api/eventos`      | Lista os eventos       | não               |
-| GET    | `/api/eventos/{id}` | Mostra um evento       | não               |
+| GET    | `/api/eventos`      | Lista os eventos       | não (mas precisa de login) |
+| GET    | `/api/eventos/{id}` | Mostra um evento       | não (mas precisa de login) |
 | POST   | `/api/eventos`      | Cadastra um evento     | sim               |
 | PUT    | `/api/eventos/{id}` | Altera um evento       | sim               |
 | DELETE | `/api/eventos/{id}` | Exclui um evento       | sim               |
@@ -41,7 +41,7 @@ No emulador Android o endereço da API é `http://10.0.2.2:8080/`.
 Envia:
 
 ```json
-{ "login": "admin", "senha": "admin123" }
+{ "login": "admin", "senha": "admin" }
 ```
 
 Recebe:
@@ -50,7 +50,7 @@ Recebe:
 { "id": 1, "nome": "Administrador", "login": "admin", "admin": true, "token": "..." }
 ```
 
-Para cadastrar, alterar ou excluir eventos, mande o `token` recebido no header `token` da requisição. Sem token dá erro 401, e se o usuário não for admin dá erro 403.
+Todas as rotas de eventos precisam do `token` recebido no header `token` da requisição. Sem token dá erro 401. Cadastrar, alterar e excluir são só para admin (senão dá erro 403).
 
 ### Evento
 

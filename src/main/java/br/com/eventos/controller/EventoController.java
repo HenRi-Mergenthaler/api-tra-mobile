@@ -30,12 +30,14 @@ public class EventoController {
     }
 
     @GetMapping
-    public List<Evento> listar() {
+    public List<Evento> listar(@RequestHeader(value = "token", required = false) String token) {
+        usuarioService.verificarLogado(token);
         return eventoService.listar();
     }
 
     @GetMapping("/{id}")
-    public Evento buscar(@PathVariable Long id) {
+    public Evento buscar(@RequestHeader(value = "token", required = false) String token, @PathVariable Long id) {
+        usuarioService.verificarLogado(token);
         return eventoService.buscar(id);
     }
 
