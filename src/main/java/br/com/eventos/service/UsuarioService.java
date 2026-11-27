@@ -22,8 +22,13 @@ public class UsuarioService {
         if (usuario == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Login ou senha invalidos");
         }
-        usuario.setToken(UUID.randomUUID().toString());
-        return repository.save(usuario);
+        // Reaproveita o token se o usuario ja tiver um. Assim dois logins seguidos
+        // (ou o mesmo usuario em dois celulares) nao invalidam o token um do outro.
+        if (usuario.getToken() == null || usuario.getToken().isBlank()) {
+            usuario.setToken(UUID.randomUUID().toString());
+            usuario = repository.save(usuario);
+        }
+        return usuario;
     }
 
     /** Qualquer usuario logado (admin ou normal). */
