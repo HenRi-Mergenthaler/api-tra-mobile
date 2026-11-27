@@ -55,6 +55,18 @@ public class Usuario {
         return token;
     }
 
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
+
     public void setToken(String token) {
         this.token = token;
     }

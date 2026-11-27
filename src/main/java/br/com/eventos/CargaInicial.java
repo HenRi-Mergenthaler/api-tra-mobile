@@ -20,9 +20,14 @@ public class CargaInicial implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        if (usuarioRepository.count() == 0) {
-            usuarioRepository.save(new Usuario("Administrador", "admin", "admin123", true));
-            usuarioRepository.save(new Usuario("Joao", "joao", "123", false));
+        // Garante os dois usuarios do trabalho, mesmo se o banco ja existia
+        garantirUsuario("Administrador", "admin", "admin", true);
+        garantirUsuario("Usuario", "usuario", "usuario", false);
+
+        // Usuario antigo de teste, substituido pelo "usuario"
+        Usuario antigo = usuarioRepository.findByLogin("joao");
+        if (antigo != null) {
+            usuarioRepository.delete(antigo);
         }
 
         if (eventoRepository.count() == 0) {
@@ -32,5 +37,17 @@ public class CargaInicial implements CommandLineRunner {
             eventoRepository.save(new Evento("Show de Natal", "Apresentacao do coral municipal e da orquestra da cidade.", "Teatro Municipal", "20/12/2026 20:00", "20/12/2026 22:30", "Musica"));
             eventoRepository.save(new Evento("Festival Gastronomico", "Food trucks e restaurantes da regiao reunidos em um so lugar.", "Centro de Eventos", "10/01/2027 11:00", "12/01/2027 23:00", "Gastronomia"));
         }
+    }
+
+    private void garantirUsuario(String nome, String login, String senha, boolean admin) {
+        Usuario usuario = usuarioRepository.findByLogin(login);
+        if (usuario == null) {
+            usuario = new Usuario(nome, login, senha, admin);
+        } else {
+            usuario.setNome(nome);
+            usuario.setSenha(senha);
+            usuario.setAdmin(admin);
+        }
+        usuarioRepository.save(usuario);
     }
 }
